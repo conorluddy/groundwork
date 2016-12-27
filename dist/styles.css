@@ -403,4 +403,5 @@ template {
   display: none; }
 
 a {
-  color: #f00; }
+  color: #f00;
+  font-size: 12px; }

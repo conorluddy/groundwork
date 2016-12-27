@@ -5,7 +5,6 @@ let browserSync = require('browser-sync').create();
 let sass = require('gulp-sass');
 
 gulp.task('default', function() {
-
   gulp.src('./index.js')
     .pipe(webpack({
       watch: true,
@@ -24,24 +23,22 @@ gulp.task('default', function() {
     }))
     .pipe(gulp.dest('dist/'));
 
+
+  browserSync.init({
+      server: {
+          baseDir: "./dist"
+      }
+  });
+
+  gulp.watch(['./index.js', './dist/*'], () => {
+    browserSync.reload();
+  });
+
+  gulp.watch('sass/**/*', () => {
+    gulp.start('sass');
+  });
+
 });
-
-
-
-
-// Static server
-gulp.task('server', function() {
-    browserSync.init({
-        server: {
-            baseDir: "./dist"
-        }
-    });
-    gulp.watch(['./index.js', './dist/bundle.js'], () => {
-      browserSync.reload();
-    });
-});
-
-
 
 
 gulp.task('sass', function () {
