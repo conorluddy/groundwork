@@ -1,10 +1,16 @@
 "use strict";
+
 let gulp = require('gulp');
 let webpack = require('webpack-stream');
 let browserSync = require('browser-sync').create();
 let sass = require('gulp-sass');
+let prompt = require('gulp-prompt');
+let fs = require('fs');
+let path = require("path");
+let intercept = require('gulp-intercept');
 
-gulp.task('default', function() {
+
+gulp.task('default', () => {
   gulp.src('./index.js')
     .pipe(webpack({
       watch: true,
@@ -41,8 +47,91 @@ gulp.task('default', function() {
 });
 
 
-gulp.task('sass', function () {
+gulp.task('sass', () => {
   return gulp.src('./sass/styles.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./dist'));
 });
+
+
+
+
+
+
+
+gulp.task('component', ()=> {
+  let jsTemplate;
+
+  gulp.src('./components/_template/index.js')
+    .pipe(intercept((file)=>{
+      jsTemplate = file.contents.toString();
+      return file;
+    }))
+    .pipe(prompt.prompt({
+        type: 'input',
+        name: 'cname',
+        message: 'New component name:'
+    }, (res) => {
+        let jsPath = './components/' + res.cname;
+        let jsxFile = jsPath + '/index.jsx';
+
+        //  TODO
+        //- Make Option here to keep sass with component or not
+        //- Check component name for validity
+        //- Ensure component doesn't already exist
+
+        let sassPath = './components/' + res.cname + '/sass';
+        let sassFileSmall = sassPath + '/small.scss';
+        let sassFileMedium = sassPath + '/medium.scss';
+        let sassFileLarge = sassPath + '/large.scss';
+        let sassContent = '.' + res.cname + ' {\n\n}';
+
+        /// Make component directory ///
+        fs.mkdir(jsPath, () => {
+
+          /// Make JSX ///
+          fs.writeFile(jsxFile, jsTemplate);
+
+          /// Make SASS ///
+          fs.mkdir(sassPath, () => {
+            fs.writeFile(sassFileSmall, sassContent);
+            fs.writeFile(sassFileMedium, sassContent);
+            fs.writeFile(sassFileLarge, sassContent);
+
+            //Rebuild the index
+            gulp.start('sass-build-component-index');
+          });
+        });
+
+    }));
+
+});
+
+
+
+
+
+gulp.task('sass-build-component-index', () => {
+
+  var p = "./components";
+  let sassContentSmall = '';
+  let sassContentMedium = '';
+  let sassContentLarge = '';
+
+  fs.readdir(p, function(err, items) {
+      // console.log(items);
+      for (var i=0; i<items.length; i++) {
+        //Ignore directories beginning with _underscore
+        if (items[i].indexOf('_') !== 0) {
+          sassContentSmall += '@import \"../../components/' + items[i] + '/sass/small.scss\"\;\n';
+          sassContentMedium += '@import \"../../components/' + items[i] + '/sass/medium.scss\"\;\n';
+          sassContentLarge += '@import \"../../components/' + items[i] + '/sass/large.scss\"\;\n';
+        }
+      }
+
+      fs.writeFile('./sass/components/small.scss', sassContentSmall);
+      fs.writeFile('./sass/components/medium.scss', sassContentMedium);
+      fs.writeFile('./sass/components/large.scss', sassContentLarge);
+  });
+
+})
