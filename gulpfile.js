@@ -81,10 +81,10 @@ gulp.task('component', ()=> {
         //- Ensure component doesn't already exist
 
         let sassPath = './components/' + res.cname + '/sass';
-        let sassFileSmall = sassPath + '/small.scss';
-        let sassFileMedium = sassPath + '/medium.scss';
-        let sassFileLarge = sassPath + '/large.scss';
-        let sassContent = '.' + res.cname + ' {\n\n}';
+        let sassFileSmall = sassPath + '/_small.scss';
+        let sassFileMedium = sassPath + '/_medium.scss';
+        let sassFileLarge = sassPath + '/_large.scss';
+        let sassContent = '';
 
         /// Make component directory ///
         fs.mkdir(jsPath, () => {
@@ -94,13 +94,29 @@ gulp.task('component', ()=> {
 
           /// Make SASS ///
           fs.mkdir(sassPath, () => {
+
+            sassContent = '// Component: ' + res.cname + ': small screen size. \n';
+            sassContent += '// Please give a brief description of the component\n\n';
+            sassContent += '.' + res.cname + ' {\n\n}';
+
             fs.writeFile(sassFileSmall, sassContent);
+
+            sassContent = '// Component: ' + res.cname + ': medium screen size. \n';
+            sassContent += '// Please give a brief description of the component\n\n';
+            sassContent += '.' + res.cname + ' {\n\n}';
+
             fs.writeFile(sassFileMedium, sassContent);
+
+            sassContent = '// Component: ' + res.cname + ': large screen size. \n';
+            sassContent += '// Please give a brief description of the component\n\n';
+            sassContent += '.' + res.cname + ' {\n\n}';
+
             fs.writeFile(sassFileLarge, sassContent);
 
             //Rebuild the index
             gulp.start('sass-build-component-index');
           });
+
         });
 
     }));
@@ -113,25 +129,25 @@ gulp.task('component', ()=> {
 
 gulp.task('sass-build-component-index', () => {
 
-  var p = "./components";
   let sassContentSmall = '';
   let sassContentMedium = '';
   let sassContentLarge = '';
 
-  fs.readdir(p, function(err, items) {
+  //Get list of components
+  fs.readdir('./components', function(err, items) {
       // console.log(items);
-      for (var i=0; i<items.length; i++) {
+      for (let i=0; i<items.length; i++) {
         //Ignore directories beginning with _underscore
         if (items[i].indexOf('_') !== 0) {
-          sassContentSmall += '@import \"../../components/' + items[i] + '/sass/small.scss\"\;\n';
-          sassContentMedium += '@import \"../../components/' + items[i] + '/sass/medium.scss\"\;\n';
-          sassContentLarge += '@import \"../../components/' + items[i] + '/sass/large.scss\"\;\n';
+          sassContentSmall += '@import \"../../components/' + items[i] + '/sass/_small.scss\"\;\n';
+          sassContentMedium += '@import \"../../components/' + items[i] + '/sass/_medium.scss\"\;\n';
+          sassContentLarge += '@import \"../../components/' + items[i] + '/sass/_large.scss\"\;\n';
         }
       }
 
-      fs.writeFile('./sass/components/small.scss', sassContentSmall);
-      fs.writeFile('./sass/components/medium.scss', sassContentMedium);
-      fs.writeFile('./sass/components/large.scss', sassContentLarge);
+      fs.writeFile('./sass/components/_small.scss', sassContentSmall);
+      fs.writeFile('./sass/components/_medium.scss', sassContentMedium);
+      fs.writeFile('./sass/components/_large.scss', sassContentLarge);
   });
 
 })
