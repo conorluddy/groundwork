@@ -20,7 +20,7 @@ var Test = React.createClass({
    // `class` is a reserved word in JavaScript, so JSX uses `className`
    // Ultimately, it will render with a `class` in the DOM
    return (
-     <div class="XXXX">
+     <div>
        <Link to="/">Home</Link>
        <main>
        </main>
