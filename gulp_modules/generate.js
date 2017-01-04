@@ -3,14 +3,23 @@ let prompt = require('gulp-prompt');
 let fs = require('fs');
 let path = require("path");
 let intercept = require('gulp-intercept');
+let _ = require('lodash');
 
 /**
  * Generate.js
  * Generates components.
  */
 
+
+
+
+function trimString(str) {
+  return str;
+}
+
+
 module.exports = (gulp) => {
-  
+
   gulp.task('component', ()=> {
     let jsTemplate;
 
@@ -24,9 +33,16 @@ module.exports = (gulp) => {
           name: 'cname',
           message: 'New component name:'
       }, (res) => {
-          let jsPath = './components/' + res.cname;
-          let jsxFile = jsPath + '/index.js';
-
+          let camelName = _.camelCase(res.cname);
+          let pascalName = _.upperFirst(camelName);
+          let hyphenName = _.replace(res.cname, ' ', '-');
+          let jsPath = './components/' + pascalName;
+          let jsxFile = jsPath + '/' + pascalName + '.js';
+          let sassPath = './components/' + pascalName + '/sass';
+          let sassFileSmall = sassPath + '/_small.scss';
+          let sassFileMedium = sassPath + '/_medium.scss';
+          let sassFileLarge = sassPath + '/_large.scss';
+          let sassContent = '';
 
 
           //  TODO
@@ -34,38 +50,33 @@ module.exports = (gulp) => {
           //- Check component name for validity
           //- Ensure component doesn't already exist
 
-
-
-          let sassPath = './components/' + res.cname + '/sass';
-          let sassFileSmall = sassPath + '/_small.scss';
-          let sassFileMedium = sassPath + '/_medium.scss';
-          let sassFileLarge = sassPath + '/_large.scss';
-          let sassContent = '';
+          jsTemplate = _.replace(jsTemplate, '<ComponentName>', pascalName);
 
           /// Make component directory ///
           fs.mkdir(jsPath, () => {
 
             /// Make JSX ///
+
             fs.writeFile(jsxFile, jsTemplate);
 
             /// Make SASS ///
             fs.mkdir(sassPath, () => {
 
-              sassContent = '/* Component: ' + res.cname + ': small screen size. \n\n';
+              sassContent = '/* Component: ' + pascalName + ': small screen size. \n\n';
               sassContent += 'If you\'re reading this, the dev who generated this component was too lazy \nto replace it with a component description :) \n*/\n\n';
-              sassContent += '.' + res.cname + ' {\n\n}';
+              sassContent += '.' + hyphenName + ' {\n\n}';
 
               fs.writeFile(sassFileSmall, sassContent);
 
-              sassContent = '/* Component: ' + res.cname + ': medium screen size. \n\n';
+              sassContent = '/* Component: ' + pascalName + ': medium screen size. \n\n';
               sassContent += 'If you\'re reading this, the dev who generated this component was too lazy \nto replace it with a component description :) \n*/\n\n';
-              sassContent += '.' + res.cname + ' {\n\n}';
+              sassContent += '.' + hyphenName + ' {\n\n}';
 
               fs.writeFile(sassFileMedium, sassContent);
 
-              sassContent = '/* Component: ' + res.cname + ': large screen size. \n\n';
+              sassContent = '/* Component: ' + pascalName + ': large screen size. \n\n';
               sassContent += 'If you\'re reading this, the dev who generated this component was too lazy \nto replace it with a component description :) \n*/\n\n';
-              sassContent += '.' + res.cname + ' {\n\n}';
+              sassContent += '.' + hyphenName + ' {\n\n}';
 
               fs.writeFile(sassFileLarge, sassContent);
 

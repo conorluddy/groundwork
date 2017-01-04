@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from 'react-dom';
 import { Router, Route, hashHistory, Link, IndexRoute } from 'react-router';
 
-import Cmpt from './components/cmpt/Cmpt';
+
 
 var MainLayout = React.createClass({
  render: () => {
@@ -22,8 +22,7 @@ var Test = React.createClass({
    return (
      <div>
        <Link to="/">Home</Link>
-       <main>
-       </main>
+       <main></main>
      </div>
    );
  }
@@ -33,6 +32,6 @@ var Test = React.createClass({
 render((
     <Router history={hashHistory}>
       <Route path="/" component={MainLayout} ></Route>
-      <Route path="/test" component={Cmpt} ></Route>
+      <Route path="/test" component={Test} ></Route>
     </Router>
 ), document.getElementById('app'))

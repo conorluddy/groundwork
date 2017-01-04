@@ -18,7 +18,7 @@
     "gulp-prompt": "^0.2.0",
     "gulp-sass": "^3.0.0",
     "gutil": "^1.6.4",
-    "lodash": "^4.17.2",
+    "lodash": "^4.17.4",
     "prompt": "^1.0.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
