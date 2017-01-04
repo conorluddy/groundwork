@@ -54,6 +54,10 @@
 
 	var _reactRouter = __webpack_require__(178);
 
+	var _Cmpt = __webpack_require__(233);
+
+	var _Cmpt2 = _interopRequireDefault(_Cmpt);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var MainLayout = _react2.default.createClass({
@@ -96,7 +100,7 @@
 	  _reactRouter.Router,
 	  { history: _reactRouter.hashHistory },
 	  _react2.default.createElement(_reactRouter.Route, { path: '/', component: MainLayout }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/test', component: Test })
+	  _react2.default.createElement(_reactRouter.Route, { path: '/test', component: _Cmpt2.default })
 	), document.getElementById('app'));
 
 /***/ },
@@ -26410,6 +26414,35 @@
 	  });
 	};
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 233 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _react2.default.createClass({
+	  displayName: 'Cmpt',
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      'Component template'
+	    );
+	  }
+	}); /*
+	      Component description goes here, please.
+	     */
 
 /***/ }
 /******/ ]);

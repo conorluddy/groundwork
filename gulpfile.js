@@ -73,7 +73,7 @@ gulp.task('component', ()=> {
         message: 'New component name:'
     }, (res) => {
         let jsPath = './components/' + res.cname;
-        let jsxFile = jsPath + '/index.jsx';
+        let jsxFile = jsPath + '/index.js';
 
 
 

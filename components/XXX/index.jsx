@@ -1,4 +1,0 @@
-Component
-template
-goes
-here.
