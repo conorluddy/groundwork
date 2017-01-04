@@ -404,3 +404,30 @@ template {
 
 a {
   color: #f00; }
+
+/* Small component SCSS ===================================================== */
+/* Component: XXX: small screen size. 
+
+If you're reading this, the dev who generated this component was too lazy 
+to replace it with a component description :) 
+*/
+.XXXX {
+  display: block; }
+
+/* Medium component SCSS ==================================================== */
+/* Component: XXX: medium screen size. 
+
+If you're reading this, the dev who generated this component was too lazy 
+to replace it with a component description :) 
+*/
+.XXXX {
+  display: block; }
+
+/* Large component SCSS ==================================================== */
+/* Component: XXX: large screen size. 
+
+If you're reading this, the dev who generated this component was too lazy 
+to replace it with a component description :) 
+*/
+.XXXX {
+  display: block; }

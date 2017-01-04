@@ -81,7 +81,7 @@
 	    // Ultimately, it will render with a `class` in the DOM
 	    return _react2.default.createElement(
 	      'div',
-	      null,
+	      { 'class': 'XXXX' },
 	      _react2.default.createElement(
 	        _reactRouter.Link,
 	        { to: '/' },

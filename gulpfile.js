@@ -40,7 +40,7 @@ gulp.task('default', () => {
     browserSync.reload();
   });
 
-  gulp.watch('sass/**/*', () => {
+  gulp.watch(['sass/**/*','components/**/*.scss'], () => {
     gulp.start('sass');
   });
 
@@ -75,10 +75,19 @@ gulp.task('component', ()=> {
         let jsPath = './components/' + res.cname;
         let jsxFile = jsPath + '/index.jsx';
 
+
+
+
+
         //  TODO
         //- Make Option here to keep sass with component or not
         //- Check component name for validity
         //- Ensure component doesn't already exist
+
+
+
+
+
 
         let sassPath = './components/' + res.cname + '/sass';
         let sassFileSmall = sassPath + '/_small.scss';
@@ -95,20 +104,20 @@ gulp.task('component', ()=> {
           /// Make SASS ///
           fs.mkdir(sassPath, () => {
 
-            sassContent = '// Component: ' + res.cname + ': small screen size. \n';
-            sassContent += '// Please give a brief description of the component\n\n';
+            sassContent = '/* Component: ' + res.cname + ': small screen size. \n\n';
+            sassContent += 'If you\'re reading this, the dev who generated this component was too lazy \nto replace it with a component description :) \n*/\n\n';
             sassContent += '.' + res.cname + ' {\n\n}';
 
             fs.writeFile(sassFileSmall, sassContent);
 
-            sassContent = '// Component: ' + res.cname + ': medium screen size. \n';
-            sassContent += '// Please give a brief description of the component\n\n';
+            sassContent = '/* Component: ' + res.cname + ': medium screen size. \n\n';
+            sassContent += 'If you\'re reading this, the dev who generated this component was too lazy \nto replace it with a component description :) \n*/\n\n';
             sassContent += '.' + res.cname + ' {\n\n}';
 
             fs.writeFile(sassFileMedium, sassContent);
 
-            sassContent = '// Component: ' + res.cname + ': large screen size. \n';
-            sassContent += '// Please give a brief description of the component\n\n';
+            sassContent = '/* Component: ' + res.cname + ': large screen size. \n\n';
+            sassContent += 'If you\'re reading this, the dev who generated this component was too lazy \nto replace it with a component description :) \n*/\n\n';
             sassContent += '.' + res.cname + ' {\n\n}';
 
             fs.writeFile(sassFileLarge, sassContent);
