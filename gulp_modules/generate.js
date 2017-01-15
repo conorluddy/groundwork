@@ -10,13 +10,9 @@ let _ = require('lodash');
  * Generates components.
  */
 
-
-
-
 function trimString(str) {
   return str;
 }
-
 
 module.exports = (gulp) => {
 
@@ -89,7 +85,5 @@ module.exports = (gulp) => {
       }));
 
   });
-
-
 
 };

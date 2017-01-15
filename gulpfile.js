@@ -5,9 +5,12 @@ let browserSync = require('browser-sync').create();
 
 require('./gulp_modules/css.js')(gulp);
 require('./gulp_modules/generate.js')(gulp);
+require('./gulp_modules/documentation.js')(gulp);
+require('./gulp_modules/js.js')(gulp);
 
-
-
+/**
+ * Default: Webpack, BrowserSync, Watch
+ */
 gulp.task('default', () => {
   gulp.src('./index.js')
     .pipe(webpack({
