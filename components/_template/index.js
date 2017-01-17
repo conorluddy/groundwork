@@ -10,7 +10,7 @@ import React from 'react'
 export default React.createClass({
   render() {
     return (
-      <div className="cpnt-<ComponentClassName>">
+      <div className="<ComponentClassName>">
         <ComponentName> component
       </div>
     );

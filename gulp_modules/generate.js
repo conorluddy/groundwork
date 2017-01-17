@@ -32,7 +32,7 @@ module.exports = (gulp) => {
           let camelName = _.camelCase(res.cname);
           let pascalName = _.upperFirst(camelName);
           let hyphenName = _.replace(res.cname, ' ', '-');
-          let className = 'cpnt-' + hyphenName;
+          let className = 'cpnt-' + _.toLower(hyphenName);
           let jsPath = './components/' + pascalName;
           let jsxFile = jsPath + '/' + pascalName + '.js';
           let sassPath = './components/' + pascalName + '/sass';
@@ -48,7 +48,7 @@ module.exports = (gulp) => {
           //- Ensure component doesn't already exist
 
           jsTemplate = _.replace(jsTemplate, /\<ComponentName\>/g, pascalName);
-          jsTemplate = _.replace(jsTemplate, /\<ComponentClassName\>/g, hyphenName);
+          jsTemplate = _.replace(jsTemplate, /\<ComponentClassName\>/g, className);
 
           /// Make component directory ///
           fs.mkdir(jsPath, () => {
