@@ -32,6 +32,7 @@ module.exports = (gulp) => {
           let camelName = _.camelCase(res.cname);
           let pascalName = _.upperFirst(camelName);
           let hyphenName = _.replace(res.cname, ' ', '-');
+          let className = 'cpnt-' + hyphenName;
           let jsPath = './components/' + pascalName;
           let jsxFile = jsPath + '/' + pascalName + '.js';
           let sassPath = './components/' + pascalName + '/sass';
@@ -46,7 +47,8 @@ module.exports = (gulp) => {
           //- Check component name for validity
           //- Ensure component doesn't already exist
 
-          jsTemplate = _.replace(jsTemplate, '<ComponentName>', pascalName);
+          jsTemplate = _.replace(jsTemplate, /\<ComponentName\>/g, pascalName);
+          jsTemplate = _.replace(jsTemplate, /\<ComponentClassName\>/g, hyphenName);
 
           /// Make component directory ///
           fs.mkdir(jsPath, () => {
@@ -60,19 +62,19 @@ module.exports = (gulp) => {
 
               sassContent = '/* Component: ' + pascalName + ': small screen size. \n\n';
               sassContent += 'If you\'re reading this, the dev who generated this component was too lazy \nto replace it with a component description :) \n*/\n\n';
-              sassContent += '.' + hyphenName + ' {\n\n}';
+              sassContent += '.' + className + ' {\n\n}';
 
               fs.writeFile(sassFileSmall, sassContent);
 
               sassContent = '/* Component: ' + pascalName + ': medium screen size. \n\n';
               sassContent += 'If you\'re reading this, the dev who generated this component was too lazy \nto replace it with a component description :) \n*/\n\n';
-              sassContent += '.' + hyphenName + ' {\n\n}';
+              sassContent += '.' + className + ' {\n\n}';
 
               fs.writeFile(sassFileMedium, sassContent);
 
               sassContent = '/* Component: ' + pascalName + ': large screen size. \n\n';
               sassContent += 'If you\'re reading this, the dev who generated this component was too lazy \nto replace it with a component description :) \n*/\n\n';
-              sassContent += '.' + hyphenName + ' {\n\n}';
+              sassContent += '.' + className + ' {\n\n}';
 
               fs.writeFile(sassFileLarge, sassContent);
 

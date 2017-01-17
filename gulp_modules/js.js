@@ -1,5 +1,5 @@
 "use strict";
-var jshint = require('gulp-jshint');
+// var jshint = require('gulp-jshint');
 
 module.exports = (gulp) => {
 
