@@ -2,6 +2,7 @@
 let gulp = require('gulp');
 let webpack = require('webpack-stream');
 let browserSync = require('browser-sync').create();
+var modRewrite  = require('connect-modrewrite');
 
 require('./gulp_modules/css.js')(gulp);
 require('./gulp_modules/generate.js')(gulp);
@@ -30,10 +31,14 @@ gulp.task('default', () => {
     }))
     .pipe(gulp.dest('dist/'));
 
-
   browserSync.init({
       server: {
-          baseDir: "./dist"
+          baseDir: "./dist",
+          middleware: [
+              modRewrite([
+                  '!\\.\\w+$ /index.html [L]'
+              ])
+          ]
       }
   });
 
