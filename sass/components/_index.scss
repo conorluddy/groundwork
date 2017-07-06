@@ -1,9 +1,13 @@
 
 /* Small component SCSS ===================================================== */
-@import "small";
+@import 'small';
 
 /* Medium component SCSS ==================================================== */
-@import "medium";
+@media (min-width: 640px) {
+  @import 'medium';
+}
 
 /* Large component SCSS ==================================================== */
-@import "large";
+@media (min-width: 980px) {
+  @import 'large';
+}
