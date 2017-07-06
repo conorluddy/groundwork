@@ -1,53 +1,44 @@
 "use strict";
-let gulp = require('gulp');
-let webpack = require('webpack-stream');
-let browserSync = require('browser-sync').create();
-var modRewrite  = require('connect-modrewrite');
+const gulp = require('gulp');
+const browserSync = require('browser-sync').create();
 
-require('./gulp_modules/css.js')(gulp);
-require('./gulp_modules/generate.js')(gulp);
-require('./gulp_modules/documentation.js')(gulp);
-require('./gulp_modules/js.js')(gulp);
+/*
+ * Modular Gulp files
+ */
+require('./gulp/assets.js')(gulp);
+require('./gulp/browsersync.js')(gulp, browserSync);
+require('./gulp/content.js')(gulp);
+require('./gulp/css.js')(gulp);
+require('./gulp/documentation.js')(gulp);
+require('./gulp/generate.js')(gulp);
+require('./gulp/js.js')(gulp);
+require('./gulp/webpack.js')(gulp);
+require('./gulp/deploy.js')(gulp);
+
 
 /**
- * Default: Webpack, BrowserSync, Watch
+ * Default runs Webpack, BrowserSync, Watches...
  */
-gulp.task('default', () => {
-  gulp.src('./index.js')
-    .pipe(webpack({
-      watch: true,
-      output: {
-        filename: 'bundle.js'
-      },
-      module: {
-        loaders: [
-          {
-            test: /\.(jsx|js)$/,
-            exclude: /node_modules/,
-            loader: 'babel-loader?presets[]=es2015&presets[]=react'
-          }
-        ],
-      },
-    }))
-    .pipe(gulp.dest('dist/'));
+gulp.task('default', ['sass-component-index'], () => {
 
-  browserSync.init({
-      server: {
-          baseDir: "./dist",
-          middleware: [
-              modRewrite([
-                  '!\\.\\w+$ /index.html [L]'
-              ])
-          ]
-      }
-  });
+  gulp.start('assets');
+  gulp.start('sass');
+  gulp.start('webpack');
+  gulp.start('browserSync');
+  gulp.start('content');
+  gulp.src('./index.html').pipe(gulp.dest('dist/'));
 
-  gulp.watch(['./index.js', './dist/*'], () => {
-    browserSync.reload();
-  });
-
-  gulp.watch(['sass/**/*','components/**/*.scss'], () => {
+  gulp.watch(['./sass/**/*.scss', './components/**/*.scss'], () => {
     gulp.start('sass');
   });
 
+  gulp.watch(['./components/**/*', './modules/**/*'], () => {
+    gulp.start('webpack');
+  });
+
+  gulp.watch(['./dist/*'], browserSync.reload);
+
+  gulp.watch(['./content/**/*'], () => {
+    gulp.start('content');
+  });
 });
